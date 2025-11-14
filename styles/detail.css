@@ -1,0 +1,37 @@
+:root {
+  --bg: #0f172a;
+  --card-border: #1f2937;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+}
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  margin: 0;
+  background: linear-gradient(135deg, #0b1226, #141b2f);
+  color: var(--text);
+}
+header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--card-border);
+  background: rgba(10, 15, 30, 0.9);
+  backdrop-filter: blur(6px);
+}
+h1 { font-size: 20px; margin: 0; }
+.url { font-size: 12px; color: var(--muted); }
+.meta { font-size: 12px; color: var(--muted); }
+main { padding: 0; }
+#toggleScriptsDetail { width: 16px; height: 16px; }
+.preview-controls { display: flex; align-items: center; gap: 8px; padding: 12px 16px; }
+.toggle { display: inline-flex; gap: 8px; align-items: center; color: var(--muted); font-size: 13px; }
+#renderFrame { width: 100vw; height: calc(100vh - 64px); border: none; background: #0a0f1e; }
+/* Modern polish for rendered content */
+#renderFrame {
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
