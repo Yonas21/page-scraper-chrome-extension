@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Page Scraper",
+  "version": "1.0.0",
+  "description": "Scrape the current webpage HTML, preview it, and store history.",
+  "action": {
+    "default_title": "Scrape Page",
+    "default_popup": "popup.html"
+  },
+  "permissions": ["storage", "scripting", "activeTab", "tabs"],
+  "host_permissions": ["<all_urls>"],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["styles/popup.css", "styles/history.css", "styles/detail.css"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "options_page": "history.html"
+}
