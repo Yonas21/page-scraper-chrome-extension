@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; script-src 'self';" />
+    <title>Page Scraper</title>
+    <link rel="stylesheet" href="styles/popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Page Scraper</h1>
+    </header>
+    <main>
+      <div class="controls">
+        <button id="scrapeBtn">Scrape Current Page</button>
+        <button id="rescrapeBtn" class="secondary hidden" title="Scrape again and save a new copy">Rescrape</button>
+        <a id="openHistory" href="history.html" target="_blank" title="Open history in a new tab">Open History</a>
+      </div>
+      <div id="notice" class="banner hidden"></div>
+      <section id="meta" class="meta hidden">
+        <div><strong>Title:</strong> <span id="pageTitle"></span></div>
+        <div><strong>URL:</strong> <span id="pageUrl"></span></div>
+        <div><strong>Saved:</strong> <span id="savedAt"></span></div>
+      </section>
+      <section id="previewContainer" class="preview hidden">
+        <h2>Preview</h2>
+        <div class="preview-controls">
+          <label class="toggle">
+            <input type="checkbox" id="toggleScripts" />
+            <span>Allow scripts in preview (unsafe)</span>
+          </label>
+        </div>
+        <iframe id="previewFrame" sandbox="allow-same-origin" referrerpolicy="no-referrer" title="Scraped preview"></iframe>
+      </section>
+      <section id="status" class="status"></section>
+    </main>
+    <script src="scripts/popup.js"></script>
+  </body>
+</html>
