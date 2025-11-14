@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; script-src 'self';" />
+    <title>Scrape Detail</title>
+    <link rel="stylesheet" href="styles/detail.css" />
+  </head>
+  <body>
+    <header>
+      <div class="titles">
+        <h1 id="title">Loading…</h1>
+        <div id="url" class="url"></div>
+        <div id="saved" class="meta"></div>
+      </div>
+      <nav>
+        <a href="history.html">Back to History</a>
+      </nav>
+    </header>
+    <main>
+      <div class="preview-controls">
+        <label class="toggle">
+          <input type="checkbox" id="toggleScriptsDetail" />
+          <span>Allow scripts in preview (unsafe)</span>
+        </label>
+      </div>
+      <iframe id="renderFrame" sandbox="allow-same-origin" referrerpolicy="no-referrer" title="Scraped page"></iframe>
+    </main>
+    <script src="scripts/detail.js"></script>
+  </body>
+</html>
