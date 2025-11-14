@@ -16,7 +16,7 @@ A minimal Chrome extension that scrapes the current page’s HTML, shows a previ
 - Open Chrome and go to `chrome://extensions`.
 - Enable `Developer mode` (top-right).
 - Click `Load unpacked` and select the folder:
-  - `/Users/macbookairm2/Documents/Scraper-chrome-extesion`
+  - `your-directory/Scraper-chrome-extesion`
 - Pin the extension to the toolbar for quick access.
 
 ## Usage
