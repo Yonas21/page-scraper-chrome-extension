@@ -29,6 +29,7 @@ main { padding: 0; }
 #toggleScriptsDetail { width: 16px; height: 16px; }
 .preview-controls { display: flex; align-items: center; gap: 8px; padding: 12px 16px; }
 .toggle { display: inline-flex; gap: 8px; align-items: center; color: var(--muted); font-size: 13px; }
+#renderFrame + .actions, .preview-controls .actions { display: inline-flex; gap: 8px; margin-left: auto; }
 #renderFrame { width: 100vw; height: calc(100vh - 64px); border: none; background: #0a0f1e; }
 /* Modern polish for rendered content */
 #renderFrame {

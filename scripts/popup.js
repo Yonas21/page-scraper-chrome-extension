@@ -75,18 +75,24 @@ document.getElementById('openHistory').addEventListener('click', () => {
   // No-op: link opens history.html in a new tab
 });
 
-function injectPreviewStyles(html) {
-  const style = `\n<style>
-  /* Normalize image sizes inside preview for consistency */
-  img { width: 240px; height: 160px; object-fit: cover; border-radius: 8px; }
-  picture img, figure img { width: 240px; height: 160px; object-fit: cover; }
-  /* Make body background consistent when previews render */
-  body { background: #ffffff; }
+function injectPreviewStyles(html, baseUrl) {
+  const headInject = `\n<base href="${baseUrl || ''}">\n<style>
+  html, body { background: #ffffff; color: #0f172a; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; line-height: 1.6; }
+  * { box-sizing: border-box; }
+  img, video, canvas, svg { max-width: 100%; height: auto; border-radius: 8px; }
+  picture img, figure img { max-width: 100%; height: auto; object-fit: cover; }
+  a { color: #2563eb; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3, h4 { line-height: 1.3; margin-top: 1em; }
+  pre { background: #f8fafc; padding: 12px; border-radius: 8px; overflow: auto; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { border: 1px solid #e5e7eb; padding: 8px; }
 </style>\n`;
   if (html.includes('</head>')) {
-    return html.replace('</head>', style + '</head>');
+    return html.replace('</head>', headInject + '</head>');
   }
-  return style + html;
+  return headInject + html;
 }
 
 async function findExistingByUrl(url) {
@@ -113,17 +119,24 @@ async function performScrapeAndSave(tab, statusEl, isRescrape) {
   statusEl.textContent = isRescrape ? 'Rescrape saved to history.' : 'Scrape saved to history.';
 }
 
+let currentEntry = null;
+
 function renderEntry(entry) {
   document.getElementById('pageTitle').textContent = entry.title;
   document.getElementById('pageUrl').textContent = entry.url;
   document.getElementById('savedAt').textContent = new Date(entry.timestamp).toLocaleString();
+  const sizeBytes = new TextEncoder().encode(entry.html || '').length;
+  const sizeKB = (sizeBytes / 1024).toFixed(1);
+  document.getElementById('pageSize').textContent = `${sizeKB} KB`;
   document.getElementById('meta').classList.remove('hidden');
   const iframe = document.getElementById('previewFrame');
-  iframe.srcdoc = injectPreviewStyles(entry.html);
+  iframe.srcdoc = injectPreviewStyles(entry.html, entry.url);
   // Set sandbox based on user toggle
   const allowScripts = !!document.getElementById('toggleScripts')?.checked;
   iframe.setAttribute('sandbox', allowScripts ? 'allow-scripts allow-same-origin' : 'allow-same-origin');
   document.getElementById('previewContainer').classList.remove('hidden');
+
+  currentEntry = entry;
 }
 
 // Listen for toggle changes to reapply sandbox policy
@@ -133,5 +146,52 @@ if (scriptsToggle) {
     const iframe = document.getElementById('previewFrame');
     const allowScripts = scriptsToggle.checked;
     iframe.setAttribute('sandbox', allowScripts ? 'allow-scripts allow-same-origin' : 'allow-same-origin');
+  });
+}
+
+const copyBtn = document.getElementById('copyHtml');
+if (copyBtn) {
+  copyBtn.addEventListener('click', async () => {
+    if (!currentEntry) return;
+    try {
+      await navigator.clipboard.writeText(currentEntry.html || '');
+      document.getElementById('status').textContent = 'Copied HTML to clipboard.';
+    } catch (_) {
+      document.getElementById('status').textContent = 'Copy failed. Browser blocked clipboard.';
+    }
+  });
+}
+
+function sanitizeFilename(name) {
+  return (name || 'scraped-page').replace(/[^a-z0-9\-_.]+/gi, '_');
+}
+
+const downloadBtn = document.getElementById('downloadHtml');
+if (downloadBtn) {
+  downloadBtn.addEventListener('click', async () => {
+    if (!currentEntry) return;
+    const title = sanitizeFilename(currentEntry.title || 'scraped-page');
+    const timestamp = new Date(currentEntry.timestamp).toISOString().replace(/[:]/g, '-');
+    const filename = `${title}-${timestamp}.html`;
+    const dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(currentEntry.html || '');
+    try {
+      await chrome.downloads.download({ url: dataUrl, filename, saveAs: true });
+      document.getElementById('status').textContent = 'Download started.';
+    } catch (_) {
+      // Fallback via anchor if downloads API not available
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = filename;
+      a.click();
+      document.getElementById('status').textContent = 'Download initiated.';
+    }
+  });
+}
+
+const openBtn = document.getElementById('openOriginal');
+if (openBtn) {
+  openBtn.addEventListener('click', () => {
+    if (!currentEntry || !currentEntry.url) return;
+    chrome.tabs.create({ url: currentEntry.url });
   });
 }

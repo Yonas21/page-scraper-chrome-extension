@@ -21,6 +21,7 @@
         <div><strong>Title:</strong> <span id="pageTitle"></span></div>
         <div><strong>URL:</strong> <span id="pageUrl"></span></div>
         <div><strong>Saved:</strong> <span id="savedAt"></span></div>
+        <div><strong>Size:</strong> <span id="pageSize"></span></div>
       </section>
       <section id="previewContainer" class="preview hidden">
         <h2>Preview</h2>
@@ -29,6 +30,11 @@
             <input type="checkbox" id="toggleScripts" />
             <span>Allow scripts in preview (unsafe)</span>
           </label>
+          <div class="actions">
+            <button id="copyHtml" class="secondary" title="Copy scraped HTML to clipboard">Copy HTML</button>
+            <button id="downloadHtml" class="secondary" title="Download scraped HTML">Download HTML</button>
+            <button id="openOriginal" class="secondary" title="Open original URL in a new tab">Open Original</button>
+          </div>
         </div>
         <iframe id="previewFrame" sandbox="allow-same-origin" referrerpolicy="no-referrer" title="Scraped preview"></iframe>
       </section>

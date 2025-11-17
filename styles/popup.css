@@ -93,6 +93,7 @@ button:active { transform: translateY(0); }
 }
 .preview-controls { display: flex; align-items: center; gap: 8px; padding-bottom: 8px; }
 .toggle { display: inline-flex; gap: 8px; align-items: center; color: var(--muted); font-size: 13px; }
+#previewContainer .actions { display: inline-flex; gap: 8px; margin-left: auto; }
 #toggleScripts { width: 16px; height: 16px; }
 #previewFrame {
   width: 100%;

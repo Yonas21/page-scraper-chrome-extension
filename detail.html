@@ -23,6 +23,11 @@
           <input type="checkbox" id="toggleScriptsDetail" />
           <span>Allow scripts in preview (unsafe)</span>
         </label>
+        <div class="actions">
+          <button id="copyHtmlDetail" class="secondary" title="Copy scraped HTML">Copy HTML</button>
+          <button id="downloadHtmlDetail" class="secondary" title="Download scraped HTML">Download HTML</button>
+          <button id="openOriginalDetail" class="secondary" title="Open original URL">Open Original</button>
+        </div>
       </div>
       <iframe id="renderFrame" sandbox="allow-same-origin" referrerpolicy="no-referrer" title="Scraped page"></iframe>
     </main>

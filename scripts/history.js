@@ -16,6 +16,7 @@ function formatItem(entry) {
     </div>
     <div class="actions">
       <a href="detail.html?id=${encodeURIComponent(entry.id)}" class="view">View</a>
+      <button class="delete" data-id="${entry.id}">Delete</button>
     </div>
   </li>`;
 }
@@ -32,7 +33,11 @@ async function renderHistory() {
   }
 
   emptyEl.style.display = 'none';
-  listEl.innerHTML = scrapeHistory.map(formatItem).join('');
+  const q = document.getElementById('searchInput')?.value?.toLowerCase() || '';
+  const filtered = q
+    ? scrapeHistory.filter((e) => (e.title || '').toLowerCase().includes(q) || (e.url || '').toLowerCase().includes(q))
+    : scrapeHistory;
+  listEl.innerHTML = filtered.map(formatItem).join('');
 }
 
 async function clearAll() {
@@ -44,3 +49,26 @@ async function clearAll() {
 
 document.getElementById('clearHistory').addEventListener('click', clearAll);
 renderHistory();
+
+// Search
+const searchInput = document.getElementById('searchInput');
+if (searchInput) {
+  searchInput.addEventListener('input', () => {
+    renderHistory();
+  });
+}
+
+// Delete item via delegation
+const listEl = document.getElementById('historyList');
+if (listEl) {
+  listEl.addEventListener('click', async (e) => {
+    const target = e.target;
+    if (target && target.classList.contains('delete')) {
+      const id = target.getAttribute('data-id');
+      const { scrapeHistory = [] } = await chrome.storage.local.get(['scrapeHistory']);
+      const next = scrapeHistory.filter((it) => it.id !== id);
+      await chrome.storage.local.set({ scrapeHistory: next });
+      renderHistory();
+    }
+  });
+}

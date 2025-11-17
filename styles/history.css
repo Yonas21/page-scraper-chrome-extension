@@ -22,6 +22,7 @@ header {
 }
 h1 { font-size: 20px; margin: 0; }
 nav { display: flex; gap: 10px; align-items: center; }
+nav input[type="search"] { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text); min-width: 220px; }
 button { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text); cursor: pointer; }
 button:hover { background: rgba(255,255,255,0.1); }
 main { padding: 16px; }
@@ -31,6 +32,7 @@ main { padding: 16px; }
 .title { font-weight: 600; }
 .url { font-size: 12px; color: var(--muted); }
 .meta { font-size: 12px; color: var(--muted); }
-.actions .view { text-decoration: none; padding: 8px 12px; border: 1px solid var(--card-border); border-radius: 10px; color: var(--text); background: linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(34, 211, 238, 0.05)); }
-.actions .view:hover { border-color: var(--accent); }
+.actions { display: inline-flex; gap: 8px; }
+.actions .view, .actions .delete { text-decoration: none; padding: 8px 12px; border: 1px solid var(--card-border); border-radius: 10px; color: var(--text); background: linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(34, 211, 238, 0.05)); cursor: pointer; }
+.actions .view:hover, .actions .delete:hover { border-color: var(--accent); }
 .empty { color: var(--muted); font-size: 14px; }
